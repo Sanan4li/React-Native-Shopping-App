@@ -1,14 +1,20 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
- 
-} from 'react-native';
+import { StyleSheet } from 'react-native';
+import {createStore, combineReducers} from "redux";
+import {Provider} from "react-redux";
 import AppContainer from "./Navigation/NavigationConfig"
+import ProductsReducers from "./Store/Reducers/ProductsReducers";
+const RootReducer = combineReducers({
+  products : ProductsReducers
+});
+const store = createStore(RootReducer);
+
 const App = () => {
+ // console.log(store.products);
   return (  
-      <AppContainer/>  
+    <Provider store={store}> 
+    <AppContainer/>
+    </Provider>  
   );
 };
 

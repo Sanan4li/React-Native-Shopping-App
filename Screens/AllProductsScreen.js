@@ -14,7 +14,7 @@ import MyHeaderButton from "./MyHeaderButton";
              <View style={{
                  width: 200,
                  borderColor:"white",
-                 borderRadius:5,
+                 borderRadius:3,
                  borderWidth:1,
                  backgroundColor:"white"
              }}>
