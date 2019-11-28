@@ -39,15 +39,11 @@ const defaultOptionsForStack =  {
       },
       CategoriesProducts : {
           screen : CategoriesProductsScreen,
-          navigationOptions : {
-            headerTitle : "Details"
-        }
+          
       },
        ProductDetails : {
         screen : ProductsDetailScreen, 
-        navigationOptions : {
-            headerTitle : "Products Details"
-        }
+        
     },
         Orders : {
         screen : OrdersScreen
@@ -67,9 +63,7 @@ const defaultOptionsForStack =  {
     },
      ProductDetails : {
       screen : ProductsDetailScreen, 
-      navigationOptions : {
-          headerTitle : "Products Details"
-      }
+      
   },
       Orders : {
       screen : OrdersScreen

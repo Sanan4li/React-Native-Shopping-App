@@ -3,13 +3,22 @@ import {
     StyleSheet,
     View,
     Text,
-   TextInput
-  } from 'react-native';   
+   TextInput,
+   TouchableOpacity,
+   FlatList,
+   Image,
+   Button
+
+  } from 'react-native'; 
+import { Rating, AirbnbRating } from 'react-native-ratings';  
 import { HeaderButtons , Item } from "react-navigation-header-buttons";
 import MyHeaderButton from "./MyHeaderButton";
+
+import {connect} from "react-redux";
 class CategoriesProductsScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
+         title : navigation.getParam("title"),
           headerRight : <View style={{flexDirection:"row"}}>
              <View style={{
                  width: 200,
@@ -38,20 +47,156 @@ class CategoriesProductsScreen extends Component {
           </View>
         };
       };
+      state = {
+        filteredProducts : []
+      }
+  componentDidMount = ()=>{
+   
+    let category = this.props.navigation.getParam("title");
+    let products = this.props.products.products.filter(
+      (product)=>{
+        return product.category == category
+      }
+    );
+    this.setState({
+      filteredProducts : products
+    });
+  }
+
+  loadBooks = (book)=>{
+                   
+    return (
+        <TouchableOpacity onPress={
+            ()=>{
+                this.props.navigation.navigate("ProductDetails", 
+                {
+                    id : book.item.id,
+                    category : book.item.category,
+                    title:book.item.title,
+                    Description:book.item.Description,
+                    Price: book.item.Price,
+                    rating: book.item.rating,
+                    image : book.item.image
+
+                });
+            }
+        }>
+        <View style={styles.productMain}>
+        <View style={{width:"35%", height:200, }}>
+        <Image style={{width : "100%" , height:"95%" , resizeMode:"contain", borderRadius:5}} 
+            source={{uri : book.item.image}} />
+        </View>
+        <View style={{ justifyContent: "space-around", alignContent:"center",  marginLeft:20,}}>
+            <Text style={styles.text}>{book.item.title}</Text>
+            <Text style={{color:"#666666"}}>Category : {book.item.category}</Text>
+            <Text style={styles.text}>Price : ${book.item.Price}</Text>
+            <Rating
+                startingValue={ Math.floor(parseInt(book.item.rating))}
+                    ratingCount={5}
+                    imageSize={25} 
+                    style={{alignItems:"flex-start"}}
+            
+                />
+              <TouchableOpacity style={{ 
+                justifyContent:"center", 
+                alignItems:"center", 
+                padding:10 ,
+                width:135, 
+                backgroundColor:"white",
+                borderRadius:3,
+                borderColor: "#FF543C",
+                borderWidth:1,
+                }} 
+                onPress={()=>{
+                  this.props.addToCart(book);
+                }}
+                >
+              <Text style={{color:"#FF543C", fontWeight:"bold"}}>Add to Cart</Text>
+              </TouchableOpacity>
+        </View>
+            
+    </View>
+    </TouchableOpacity>
+    )
+
+    }
+  
+
+
     render() {
+      
         return (
-           <View style={styles.main}>
-               <Text>Categories Products Screen</Text>
-           </View>
+          <View style={styles.main}>
+          <FlatList data={this.state.filteredProducts} renderItem={
+              this.loadBooks
+              }
+           />
+         </View>
         )
     }
 }
+
 const styles = StyleSheet.create({
-    main:{
-      flex:1,
-      justifyContent:"center",
-      alignItems: "center"
-    }
-  });
+  main: {
+      flex : 1,
+      padding : 10,
+     
+  },
+  bookMain :{
+      marginTop:10,
+      width : "100%",
+      height:500,
+     
+      borderColor:"black" , borderWidth:1,
+      borderRadius : 5
+  },
+  productMain: {
+    flexDirection:"row", 
+    justifyContent:"flex-start", 
+    borderBottomColor:"gray",
+    borderBottomWidth:1,
+    marginBottom:5
   
-export default CategoriesProductsScreen;
+      
+  },
+  text : {
+      color:"black",
+      fontFamily : "halfmoon_bold",
+      fontSize: 15,
+      fontWeight:"bold",
+  }
+});
+
+
+  
+const mapStateToProps = (state)=>{
+  return {
+    products : state.products
+  }
+}
+const mapDispatchToProps = (dispatch)=>{
+    return {
+      addToCart : (itemData)=>{
+        dispatch({
+          type : "ADD_TO_CART",
+          item : itemData
+        });
+      }
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(CategoriesProductsScreen);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

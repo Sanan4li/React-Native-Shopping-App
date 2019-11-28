@@ -4,8 +4,10 @@ import {createStore, combineReducers} from "redux";
 import {Provider} from "react-redux";
 import AppContainer from "./Navigation/NavigationConfig"
 import ProductsReducers from "./Store/Reducers/ProductsReducers";
+import CartReducers from "./Store/Reducers/CartReducers";
 const RootReducer = combineReducers({
-  products : ProductsReducers
+  products : ProductsReducers,
+  cartItems : CartReducers
 });
 const store = createStore(RootReducer);
 

@@ -10,7 +10,6 @@ import {
    
   } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-//import {connect} from "react-redux";
 class CategoriesScreen extends Component {
   state = {
     categories : [
@@ -88,11 +87,7 @@ const styles = StyleSheet.create({
   
 });
 
-// const mapStateToProps = (state)=>{
-//   return {
-//     products : state.products
-//   }
-// }
+
 
 export default CategoriesScreen;
 
