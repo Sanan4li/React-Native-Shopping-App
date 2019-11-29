@@ -14,8 +14,9 @@ import { NavigationEvents } from 'react-navigation';
 import { Rating, AirbnbRating } from 'react-native-ratings';  
 import { HeaderButtons , Item } from "react-navigation-header-buttons";
 import MyHeaderButton from "./MyHeaderButton";
-import { Avatar, Badge, Icon, withBadge } from 'react-native-elements';
+import { Avatar, Badge,  withBadge } from 'react-native-elements';
 import {connect} from "react-redux";
+import Fontisto from 'react-native-vector-icons/Fontisto';
 class CategoriesProductsScreen extends Component {
     
       state = {
@@ -51,9 +52,11 @@ class CategoriesProductsScreen extends Component {
            />
           <HeaderButtons HeaderButtonComponent={MyHeaderButton}>
            <Item title="Favourtie" iconName="shopping-cart" 
-           onPress={()=>{
-               console.log("Pressed");
-           }}
+           onPress={
+            ()=>{
+             navigation.navigate("Cart");
+            } 
+           }
             style={{marginTop:4}}
             />
          </HeaderButtons>
@@ -92,7 +95,6 @@ class CategoriesProductsScreen extends Component {
     },
     ()=>{
       let count = this.props.itemsCount.itemsCount;
-    console.log(count);
     this.props.navigation.setParams({
       count : count,
     });
@@ -101,7 +103,8 @@ class CategoriesProductsScreen extends Component {
   }
   addCartHandler = (book)=>{
    this.getItemsCount();
-    
+   let qty = 1;
+   book.quantity = qty;
     //console.log(this.state.count);
     this.props.addToCart(book);
    
@@ -142,7 +145,8 @@ class CategoriesProductsScreen extends Component {
                     style={{alignItems:"flex-start"}}
             
                 />
-              <TouchableOpacity style={{ 
+             <View style={{flexDirection:"row"}}>
+             <TouchableOpacity style={{ 
                 justifyContent:"center", 
                 alignItems:"center", 
                 padding:10 ,
@@ -156,8 +160,12 @@ class CategoriesProductsScreen extends Component {
                   this.addCartHandler(book);
                 }}
                 >
-  <Text style={{color:"#FF543C", fontWeight:"bold"}}>Add to Cart</Text>
+             <Text style={{color:"#FF543C", fontWeight:"bold"}}>Add to Cart</Text>
               </TouchableOpacity>
+              <TouchableOpacity>
+              <Fontisto name="heart" size={33} color="#FF543C" style={{marginLeft:10}} />
+              </TouchableOpacity>
+             </View>
         </View>
             
     </View>

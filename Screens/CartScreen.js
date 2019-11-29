@@ -7,6 +7,14 @@ import {
   } from 'react-native';
   
 class CartScreen extends Component {
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+     title : "Items in Cart",
+    }
+  }
+
+
     render() {
         return (
            <View style={styles.main}>

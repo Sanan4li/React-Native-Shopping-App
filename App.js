@@ -8,7 +8,7 @@ import CartReducers from "./Store/Reducers/CartReducers";
 const RootReducer = combineReducers({
   products : ProductsReducers,
   cartItems : CartReducers,
-  itemsCount : CartReducers
+  itemsCount : CartReducers 
 
 });
 const store = createStore(RootReducer);
