@@ -10,13 +10,21 @@ import {
    Button
 
   } from 'react-native'; 
+import { NavigationEvents } from 'react-navigation';
 import { Rating, AirbnbRating } from 'react-native-ratings';  
 import { HeaderButtons , Item } from "react-navigation-header-buttons";
 import MyHeaderButton from "./MyHeaderButton";
-
+import { Avatar, Badge, Icon, withBadge } from 'react-native-elements';
 import {connect} from "react-redux";
 class CategoriesProductsScreen extends Component {
-    static navigationOptions = ({ navigation }) => {
+    
+      state = {
+        filteredProducts : [],
+       count : -12
+      }
+
+
+      static navigationOptions = ({ navigation }) => {
         return {
          title : navigation.getParam("title"),
           headerRight : <View style={{flexDirection:"row"}}>
@@ -37,30 +45,67 @@ class CategoriesProductsScreen extends Component {
                 />
           </HeaderButtons>
            
-           <HeaderButtons HeaderButtonComponent={MyHeaderButton}>
+          <View>
+          <Badge value={navigation.getParam("count")} status="primary" 
+          containerStyle={{ position: 'absolute',  right: 4 , zIndex:999}}
+           />
+          <HeaderButtons HeaderButtonComponent={MyHeaderButton}>
            <Item title="Favourtie" iconName="shopping-cart" 
            onPress={()=>{
                console.log("Pressed");
            }}
-           />
-     </HeaderButtons>
+            style={{marginTop:4}}
+            />
+         </HeaderButtons>
+           
+          </View>
+
           </View>
         };
       };
-      state = {
-        filteredProducts : []
-      }
+
+
+
   componentDidMount = ()=>{
-   
+    
     let category = this.props.navigation.getParam("title");
     let products = this.props.products.products.filter(
       (product)=>{
         return product.category == category
       }
     );
+  
     this.setState({
-      filteredProducts : products
+      filteredProducts : products,
+      
     });
+    let count = this.props.itemsCount.itemsCount;
+    this.props.navigation.setParams({
+      count,
+    });
+   
+  }
+
+  getItemsCount = ()=>{
+    this.setState({
+      count : this.state.count+1
+    },
+    ()=>{
+      let count = this.props.itemsCount.itemsCount;
+    console.log(count);
+    this.props.navigation.setParams({
+      count : count,
+    });
+    }
+    );
+  }
+  addCartHandler = (book)=>{
+   this.getItemsCount();
+    
+    //console.log(this.state.count);
+    this.props.addToCart(book);
+   
+    // this.props.itemsCount.itemsCount
   }
 
   loadBooks = (book)=>{
@@ -108,10 +153,10 @@ class CategoriesProductsScreen extends Component {
                 borderWidth:1,
                 }} 
                 onPress={()=>{
-                  this.props.addToCart(book);
+                  this.addCartHandler(book);
                 }}
                 >
-              <Text style={{color:"#FF543C", fontWeight:"bold"}}>Add to Cart</Text>
+  <Text style={{color:"#FF543C", fontWeight:"bold"}}>Add to Cart</Text>
               </TouchableOpacity>
         </View>
             
@@ -127,6 +172,11 @@ class CategoriesProductsScreen extends Component {
       
         return (
           <View style={styles.main}>
+            <NavigationEvents
+                onDidFocus={() => {
+                  this.getItemsCount()
+                }}
+                />
           <FlatList data={this.state.filteredProducts} renderItem={
               this.loadBooks
               }
@@ -171,7 +221,8 @@ const styles = StyleSheet.create({
   
 const mapStateToProps = (state)=>{
   return {
-    products : state.products
+    products : state.products,
+    itemsCount : state.itemsCount,
   }
 }
 const mapDispatchToProps = (dispatch)=>{

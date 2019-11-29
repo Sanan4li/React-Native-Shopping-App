@@ -10,6 +10,8 @@ import {
   import { Rating, AirbnbRating } from 'react-native-ratings';  
   import { HeaderButtons , Item } from "react-navigation-header-buttons";
   import MyHeaderButton from "./MyHeaderButton";
+  import { Avatar, Badge, Icon, withBadge } from 'react-native-elements';
+  import { NavigationEvents } from 'react-navigation';
   import {connect} from "react-redux";
 class ProductsDetailScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -17,16 +19,59 @@ class ProductsDetailScreen extends Component {
      title : navigation.getParam("title"),
       headerRight : <View style={{flexDirection:"row"}}>
        
-       <HeaderButtons HeaderButtonComponent={MyHeaderButton}>
-       <Item title="Favourtie" iconName="shopping-cart" 
-       onPress={()=>{
-           console.log("Pressed");
-       }}
-       />
- </HeaderButtons>
+       <View>
+          <Badge value={navigation.getParam("count")} status="primary" 
+          containerStyle={{ position: 'absolute',  right: 4 , zIndex:999}}
+           />
+          <HeaderButtons HeaderButtonComponent={MyHeaderButton}>
+           <Item title="Favourtie" iconName="shopping-cart" 
+           onPress={()=>{
+               console.log("Pressed");
+           }}
+            style={{marginTop:4}}
+            />
+         </HeaderButtons>
+           
+          </View>
       </View>
     };
   };
+  state = {
+    count : -12
+  }
+componentDidMount = ()=>{
+let count = this.props.itemsCount.itemsCount;
+console.log(count);
+this.props.navigation.setParams({
+  count : count,
+});
+}
+
+getItemsCount = ()=>{
+  this.setState({
+    count : this.state.count+1
+  },
+  ()=>{
+    let count = this.props.itemsCount.itemsCount;
+  console.log(count);
+  this.props.navigation.setParams({
+    count : count,
+  });
+  }
+  );
+}
+addCartHandler = (book)=>{
+  this.getItemsCount();
+  //console.log(this.state.count);
+  this.props.addToCart(book);
+ this.props.navigation.goBack();
+  // this.props.itemsCount.itemsCount
+}
+
+
+
+
+
     render() {
         
           let id = this.props.navigation.getParam("id");
@@ -36,9 +81,25 @@ class ProductsDetailScreen extends Component {
           let Price = this.props.navigation.getParam("Price");
           let rating = Math.floor(parseInt(this.props.navigation.getParam("rating")));
           let image = this.props.navigation.getParam("image");
+          let book = {
+            id : id,
+            category : category,
+            title : title,
+            Description : Description,
+            Price : Price,
+            rating : rating,
+            image : image,
+          }
           return (
               <ScrollView>
              <View style={styles.main}>
+
+
+             <NavigationEvents
+                onDidFocus={() => {
+                  this.getItemsCount()
+                }}
+                />
             
                  <Image
                   source={{ uri: image }}
@@ -79,7 +140,11 @@ class ProductsDetailScreen extends Component {
                 borderRadius:3,
                
                 marginBottom:20,
-                }}>
+                }}
+                onPress={()=>{
+                  this.addCartHandler(book);
+                }}
+                >
               <Text style={{color:"white", fontWeight:"bold", fontSize:20}}>Add to Cart</Text>
               </TouchableOpacity>
              </View>
@@ -123,4 +188,20 @@ fitImage: {
   }
   });
   
-export default ProductsDetailScreen;
+const mapStateToProps = (state)=>{
+  return {
+    products : state.products,
+    itemsCount : state.itemsCount,
+  }
+}
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    addToCart : (itemData)=>{
+      dispatch({
+        type : "ADD_TO_CART",
+        item : itemData
+      });
+    }
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(ProductsDetailScreen);

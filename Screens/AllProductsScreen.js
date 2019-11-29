@@ -10,11 +10,14 @@ import {
  Button
 
 } from 'react-native'; 
+import { NavigationEvents } from 'react-navigation';
 import { Rating, AirbnbRating } from 'react-native-ratings';  
 import { HeaderButtons , Item } from "react-navigation-header-buttons";
 import MyHeaderButton from "./MyHeaderButton";
+import { Avatar, Badge, Icon, withBadge } from 'react-native-elements';
 import {connect} from "react-redux";
  class AllProductsScreen extends Component { 
+ 
       static navigationOptions = ({ navigation }) => {
         return {
           headerRight : <View style={{flexDirection:"row"}}>
@@ -34,27 +37,60 @@ import {connect} from "react-redux";
                 }}
                 />
           </HeaderButtons>
-           
-           <HeaderButtons HeaderButtonComponent={MyHeaderButton}>
+          <View>
+          <Badge value={navigation.getParam("count")} status="primary" 
+          containerStyle={{ position: 'absolute',  right: 4 , zIndex:999}}
+           />
+          <HeaderButtons HeaderButtonComponent={MyHeaderButton}>
            <Item title="Favourtie" iconName="shopping-cart" 
            onPress={()=>{
                console.log("Pressed");
            }}
-           />
-     </HeaderButtons>
+            style={{marginTop:4}}
+            />
+         </HeaderButtons>
+           
+          </View>
           </View>
         };
       };
       state = {
-        filteredProducts : []
+        filteredProducts : [],
+        count : -12
       }
   componentDidMount = ()=>{
     let products = this.props.products.products;
-    console.log(products);
     this.setState({
       filteredProducts : products
     });
-  }
+    let count = this.props.itemsCount.itemsCount;
+    console.log(count);
+    this.props.navigation.setParams({
+      count : count,
+    });
+    }
+    getItemsCount = ()=>{
+      this.setState({
+        count : this.state.count+1
+      },
+      ()=>{
+        let count = this.props.itemsCount.itemsCount;
+      console.log(count);
+      this.props.navigation.setParams({
+        count : count,
+      });
+      }
+      );
+    }
+    addCartHandler = (book)=>{
+      this.getItemsCount();
+      //console.log(this.state.count);
+      this.props.addToCart(book);
+     
+      // this.props.itemsCount.itemsCount
+    }
+  
+
 
   loadBooks = (book)=>{
                    
@@ -99,7 +135,11 @@ import {connect} from "react-redux";
                 borderRadius:3,
                 borderColor: "#FF543C",
                 borderWidth:1,
-                }}>
+                }}
+                onPress={()=>{
+                  this.addCartHandler(book);
+                }}
+                >
               <Text style={{color:"#FF543C", fontWeight:"bold"}}>Add to Cart</Text>
               </TouchableOpacity>
         </View>
@@ -116,6 +156,11 @@ import {connect} from "react-redux";
     render() {
         return (
           <View style={styles.main}>
+            <NavigationEvents
+                onDidFocus={() => {
+                  this.getItemsCount()
+                }}
+                />
           <FlatList data={this.state.filteredProducts} renderItem={
               this.loadBooks
               }
@@ -160,8 +205,18 @@ const styles = StyleSheet.create({
   
 const mapStateToProps = (state)=>{
   return {
-    products : state.products
+    products : state.products,
+    itemsCount : state.itemsCount,
   }
 }
-  
-export default connect(mapStateToProps)(AllProductsScreen);
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    addToCart : (itemData)=>{
+      dispatch({
+        type : "ADD_TO_CART",
+        item : itemData
+      });
+    }
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(AllProductsScreen);

@@ -1,14 +1,21 @@
 const initialState = {
-    cartItems : []
+    cartItems : [],
+    itemsCount : 0
+
 }
 
 export default (state=initialState, action)=>{
     if(action.type=="ADD_TO_CART"){
         let updatedCartItems = [...state.cartItems, action.item];
-        console.log(updatedCartItems);
+        let count = state.itemsCount + 1;
+         console.log(updatedCartItems);
+         console.log(count);
+      // console.log(state.itemsCount);
        return {
         ...state,
-        cartItems : updatedCartItems 
+        itemsCount : count,
+        cartItems : updatedCartItems ,
+       
        } 
     }
     return state

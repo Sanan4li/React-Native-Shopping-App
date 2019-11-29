@@ -45,8 +45,8 @@ const defaultOptionsForStack =  {
         screen : ProductsDetailScreen, 
         
     },
-        Orders : {
-        screen : OrdersScreen
+        Cart : {
+        screen : CartScreen
     }
 
   }, defaultOptionsForStack
@@ -65,9 +65,9 @@ const defaultOptionsForStack =  {
       screen : ProductsDetailScreen, 
       
   },
-      Orders : {
-      screen : OrdersScreen
-  }
+  Cart : {
+    screen : CartScreen
+}
 
 }, defaultOptionsForStack
 
@@ -88,9 +88,9 @@ const WishListStack = createStackNavigator({
           headerTitle : "Products Details"
       }
   },
-      Orders : {
-      screen : OrdersScreen
-  }
+  Cart : {
+    screen : CartScreen
+}
 
 }, defaultOptionsForStack
 
@@ -99,9 +99,9 @@ const WishListStack = createStackNavigator({
 
 const CartStack = createStackNavigator({
    
-    Orders : {
-        screen : OrdersScreen,
-        navigationOptions : {
+    Cart : {
+        screen : CartScreen,
+        navigationOptions:{
             headerTitle : "Items in Cart"
         }
     },
