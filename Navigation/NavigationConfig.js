@@ -39,18 +39,14 @@ const defaultOptionsForStack =  {
       },
       CategoriesProducts : {
           screen : CategoriesProductsScreen,
-          navigationOptions : {
-            headerTitle : "Details"
-        }
+          
       },
        ProductDetails : {
         screen : ProductsDetailScreen, 
-        navigationOptions : {
-            headerTitle : "Products Details"
-        }
+        
     },
-        Orders : {
-        screen : OrdersScreen
+        Cart : {
+        screen : CartScreen
     }
 
   }, defaultOptionsForStack
@@ -67,13 +63,11 @@ const defaultOptionsForStack =  {
     },
      ProductDetails : {
       screen : ProductsDetailScreen, 
-      navigationOptions : {
-          headerTitle : "Products Details"
-      }
+      
   },
-      Orders : {
-      screen : OrdersScreen
-  }
+  Cart : {
+    screen : CartScreen
+}
 
 }, defaultOptionsForStack
 
@@ -94,9 +88,9 @@ const WishListStack = createStackNavigator({
           headerTitle : "Products Details"
       }
   },
-      Orders : {
-      screen : OrdersScreen
-  }
+  Cart : {
+    screen : CartScreen
+}
 
 }, defaultOptionsForStack
 
@@ -105,9 +99,9 @@ const WishListStack = createStackNavigator({
 
 const CartStack = createStackNavigator({
    
-    Orders : {
-        screen : OrdersScreen,
-        navigationOptions : {
+    Cart : {
+        screen : CartScreen,
+        navigationOptions:{
             headerTitle : "Items in Cart"
         }
     },
