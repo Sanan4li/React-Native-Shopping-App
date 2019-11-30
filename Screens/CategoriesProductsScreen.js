@@ -104,7 +104,7 @@ class CategoriesProductsScreen extends Component {
   addCartHandler = (book)=>{
    this.getItemsCount();
    let qty = 1;
-   book.quantity = qty;
+   book.item.quantity = qty;
     //console.log(this.state.count);
     this.props.addToCart(book);
    
@@ -117,16 +117,7 @@ class CategoriesProductsScreen extends Component {
         <TouchableOpacity onPress={
             ()=>{
                 this.props.navigation.navigate("ProductDetails", 
-                {
-                    id : book.item.id,
-                    category : book.item.category,
-                    title:book.item.title,
-                    Description:book.item.Description,
-                    Price: book.item.Price,
-                    rating: book.item.rating,
-                    image : book.item.image
-
-                });
+                {book} );
             }
         }>
         <View style={styles.productMain}>

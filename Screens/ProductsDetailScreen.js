@@ -63,7 +63,10 @@ getItemsCount = ()=>{
 addCartHandler = (book)=>{
   this.getItemsCount();
   //console.log(this.state.count);
+  let qty = 1;
+   book.quantity = qty;
   this.props.addToCart(book);
+ // console.log(book);
  this.props.navigation.goBack();
   // this.props.itemsCount.itemsCount
 }
@@ -74,22 +77,8 @@ addCartHandler = (book)=>{
 
     render() {
         
-          let id = this.props.navigation.getParam("id");
-          let category = this.props.navigation.getParam("category");
-          let title = this.props.navigation.getParam("title");
-          let Description = this.props.navigation.getParam("Description");
-          let Price = this.props.navigation.getParam("Price");
-          let rating = Math.floor(parseInt(this.props.navigation.getParam("rating")));
-          let image = this.props.navigation.getParam("image");
-          let book = {
-            id : id,
-            category : category,
-            title : title,
-            Description : Description,
-            Price : Price,
-            rating : rating,
-            image : image,
-          }
+          let book = this.props.navigation.getParam("book");
+         
           return (
               <ScrollView>
              <View style={styles.main}>
@@ -102,29 +91,29 @@ addCartHandler = (book)=>{
                 />
             
                  <Image
-                  source={{ uri: image }}
+                  source={{ uri: book.item.image }}
                       style={styles.fitImage}
                   />
                   <View style={styles.infoBox}>
                       <Text>Book Title</Text>
-                      <Text style={styles.propText}>{title}</Text>
+                      <Text style={styles.propText}>{book.item.title}</Text>
                   </View>
                   <View style={styles.infoBox}>
                       <Text>Written By</Text>
-                      <Text style={styles.propText}>{Description}</Text>
+                      <Text style={styles.propText}>{book.item.Description}</Text>
                   </View>
                   <View style={styles.infoBox}>
                       <Text>Category</Text>
-                      <Text style={styles.propText}>{category}</Text>
+                      <Text style={styles.propText}>{book.item.category}</Text>
                   </View>
                   <View style={styles.infoBox}>
                       <Text>Price</Text>
-                      <Text style={styles.propText}>{Price}</Text>
+                      <Text style={styles.propText}>{book.item.Price}</Text>
                   </View>
                  <View style={styles.rating}>
                  <Rating
                  
-                  startingValue={rating}
+                  startingValue={Math.floor(parseInt(book.item.rating))}
                       ratingCount={5}
                       imageSize={40}
                       showRating
@@ -147,6 +136,7 @@ addCartHandler = (book)=>{
                 >
               <Text style={{color:"white", fontWeight:"bold", fontSize:20}}>Add to Cart</Text>
               </TouchableOpacity>
+              
              </View>
              </ScrollView>
         )

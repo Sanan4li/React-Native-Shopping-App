@@ -102,16 +102,8 @@ import {connect} from "react-redux";
         <TouchableOpacity onPress={
           ()=>{
             this.props.navigation.navigate("ProductDetails", 
-            {
-                id : book.item.id,
-                category : book.item.category,
-                title:book.item.title,
-                Description:book.item.Description,
-                Price: book.item.Price,
-                rating: book.item.rating,
-                image : book.item.image
-
-            });
+            {book} );
+            
         }
         }>
         <View style={styles.productMain}>
