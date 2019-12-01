@@ -105,9 +105,7 @@ const CartStack = createStackNavigator({
             headerTitle : "Items in Cart"
         }
     },
-     WishList : {
-      screen : WishListScreen, 
-  },
+    
       
 
 }, defaultOptionsForStack

@@ -1,15 +1,20 @@
 import React, { Component } from 'react'
 import {
-    StyleSheet,
-    View,
-    Text,
-   FlatList
+  StyleSheet,
+  View,
+  Text,
+ TextInput,
+ TouchableOpacity,
+ FlatList,
+ Image,
   } from 'react-native';
-  import { Rating, AirbnbRating } from 'react-native-ratings';  
+  import { NavigationEvents } from 'react-navigation';
+  import Icon from 'react-native-vector-icons/AntDesign';
+  import FontAwesome from 'react-native-vector-icons/FontAwesome5';
   import { HeaderButtons , Item } from "react-navigation-header-buttons";
   import MyHeaderButton from "./MyHeaderButton";
-  import { Avatar, Badge, Icon, withBadge } from 'react-native-elements';
-  import { NavigationEvents } from 'react-navigation';
+  import { Avatar, Badge, withBadge } from 'react-native-elements';
+  
   import {connect} from "react-redux";
 class CartScreen extends Component {
 
@@ -19,33 +24,102 @@ class CartScreen extends Component {
     }
   }
   state = {
-    itemsInCart : null
+    itemsInCart : null,
+    itemsCount : -1,
   }
  
   componentDidMount = ()=>{
+    this.getItemsCount();
+  
+  }
+
+  getItemsCount = ()=>{
+    
     let Items = this.props.cartItems.cartItems.map(
       (item)=>{
         return item
       }
-    )
+    );
+
     this.setState({
-      itemsInCart : Items
-    })
+      itemsInCart : Items,
+      itemsCount : this.props.itemsCount.itemsCount
+    });
   }
+
+
+
   loadBooks = (book)=>{
-                   
     return (
-        <View style={{flexDirection:"row"}}>
-          <Text>{book.item.title}</Text>
-          <Text style={{marginLeft:20}}>{book.item.quantity}</Text>
+        <View>
+        <View style={styles.productMain}>
+        <View style={{width:"35%", height:130 }}>
+        <Image style={{width : "100%" , height:"95%" , resizeMode:"contain" , borderRadius:5}} 
+            source={{uri : book.item.image}} />
         </View>
-      )
+        <View style={{ justifyContent: "space-around", alignContent:"center",  marginLeft:20,}}>
+            <Text style={styles.text}>{book.item.title}</Text>
+            <Text style={styles.text}>Price : ${book.item.Price}</Text>
+            <View style={{flexDirection:"row",marginVertical:5}}>
+           <TouchableOpacity>
+            <Icon name="minussquareo" size={25} color="black" style={{marginRight:10, marginTop:2}} />
+            </TouchableOpacity> 
+              <Text style={{fontSize:20, }}>
+                {book.item.quantity}
+              </Text>
+              <TouchableOpacity>
+              <Icon name="plussquareo" size={25} color="black" style={{marginLeft:10, marginTop:2}} />
+              </TouchableOpacity>
+              <TouchableOpacity 
+              onPress={
+                ()=>{
+                  this.props.deleteItem(book.item.id);
+                  setTimeout(this.getItemsCount,1000);
+                }
+              }
+              style={{flexDirection:"row", marginLeft:"30%" ,justifyContent:"space-between", alignItems:"flex-end"}}>
+              <FontAwesome name="trash" size={25} color="red"  />
+             
+              </TouchableOpacity>
+            </View>
+             
+            
+            
+            
+              
+              
+            
+        </View>
+            
+    </View>
+    </View>
+    )
+
+   
+    
+      
   }
     render() {
-      console.log(this.state.itemsInCart);
+      if(this.state.itemsCount<=0){
+        return (
+          <View style={styles.main}>
+            <NavigationEvents
+                onDidFocus={() => {
+                  this.getItemsCount()
+                }}
+                />
+            <Text>You Have No Item in Your Cart List.</Text>
+          </View>
+        )
+      }
+      else{      
         return (
            <View style={styles.main}>
-             
+             <NavigationEvents
+                onDidFocus={() => {
+                  this.getItemsCount()
+                }}
+                />
                <FlatList data={this.state.itemsInCart} renderItem={
               this.loadBooks
               }
@@ -53,14 +127,43 @@ class CartScreen extends Component {
            </View>
         )
     }
+  }
 }
+
+   
 const styles = StyleSheet.create({
-    main:{
-      flex:1,
-      justifyContent:"center",
-      alignItems: "center"
-    }
-  });
+  main: {
+      flex : 1,
+      padding : 10,
+      alignItems:"center",
+     
+  },
+  bookMain :{
+      marginTop:10,
+      width : "100%",
+      height:500,
+     
+      borderColor:"black" , borderWidth:1,
+      borderRadius : 5
+  },
+  productMain: {
+    flexDirection:"row", 
+    justifyContent:"flex-start", 
+    borderBottomColor:"gray",
+    borderBottomWidth:1,
+    marginBottom:5
+  
+      
+  },
+  text : {
+      color:"black",
+      fontFamily : "halfmoon_bold",
+      fontSize: 15,
+      fontWeight:"bold",
+  }
+});
+
+
   
   const mapStateToProps = (state)=>{
     return {
@@ -70,12 +173,12 @@ const styles = StyleSheet.create({
   }
   const mapDispatchToProps = (dispatch)=>{
     return {
-      addToCart : (itemData)=>{
+      deleteItem : (itemData)=>{
         dispatch({
-          type : "ADD_TO_CART",
+          type : "DELETE_ITEM",
           item : itemData
         });
       }
     }
   }
-export default connect(mapStateToProps)(CartScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(CartScreen);

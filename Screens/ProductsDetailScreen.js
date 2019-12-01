@@ -78,7 +78,7 @@ addCartHandler = (book)=>{
     render() {
         
           let book = this.props.navigation.getParam("newBook");
-          console.log(book);
+         
           return (
               <ScrollView>
              <View style={styles.main}>
