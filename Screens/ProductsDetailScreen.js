@@ -78,18 +78,14 @@ addCartHandler = (book)=>{
     render() {
         
           let book = this.props.navigation.getParam("newBook");
-         
           return (
               <ScrollView>
              <View style={styles.main}>
-
-
              <NavigationEvents
                 onDidFocus={() => {
                   this.getItemsCount()
                 }}
                 />
-            
                  <Image
                   source={{ uri: book.image }}
                       style={styles.fitImage}
@@ -117,7 +113,6 @@ addCartHandler = (book)=>{
                       ratingCount={5}
                       imageSize={40}
                       showRating
-              
                   />
                  </View>
                  <TouchableOpacity style={{ 

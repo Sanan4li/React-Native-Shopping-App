@@ -61,13 +61,35 @@ class CartScreen extends Component {
             <Text style={styles.text}>{book.item.title}</Text>
             <Text style={styles.text}>Price : ${book.item.Price}</Text>
             <View style={{flexDirection:"row",marginVertical:5}}>
-           <TouchableOpacity>
-            <Icon name="minussquareo" size={25} color="black" style={{marginRight:10, marginTop:2}} />
-            </TouchableOpacity> 
+            {book.item.quantity > 1 ? 
+            <TouchableOpacity onPress={
+              ()=>{
+                this.props.decreaseQuantity(book.item.id);
+                setTimeout(this.getItemsCount,1000);
+              }
+            }> 
+            <Icon  name="minussquareo" size={25} color="black" style={{marginRight:10, marginTop:2}} />
+            </TouchableOpacity>
+            : <TouchableOpacity disabled={true} onPress={
+             ()=>{
+               this.props.decreaseQuantity(book.item.id);
+               setTimeout(this.getItemsCount,1000);
+             }
+           }> 
+           <Icon name="minussquareo" size={25} color="gray" style={{marginRight:10, marginTop:2}} />
+           </TouchableOpacity>
+             }
+           
+            
               <Text style={{fontSize:20, }}>
                 {book.item.quantity}
               </Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={
+                ()=>{
+                  this.props.increaseQuantity(book.item.id);
+                  setTimeout(this.getItemsCount,1000);
+                }
+              }>
               <Icon name="plussquareo" size={25} color="black" style={{marginLeft:10, marginTop:2}} />
               </TouchableOpacity>
               <TouchableOpacity 
@@ -81,14 +103,7 @@ class CartScreen extends Component {
               <FontAwesome name="trash" size={25} color="red"  />
              
               </TouchableOpacity>
-            </View>
-             
-            
-            
-            
-              
-              
-            
+            </View>            
         </View>
             
     </View>
@@ -178,7 +193,19 @@ const styles = StyleSheet.create({
           type : "DELETE_ITEM",
           item : itemData
         });
-      }
+      },
+      decreaseQuantity : (itemData)=>{
+        dispatch({
+          type : "DECREASE_QUANTITY",
+          item : itemData
+        });
+      },
+      increaseQuantity : (itemData)=>{
+        dispatch({
+          type : "INCREASE_QUANTITY",
+          item : itemData
+        });
+      },
     }
   }
 export default connect(mapStateToProps, mapDispatchToProps)(CartScreen);

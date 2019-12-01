@@ -53,6 +53,24 @@ export default (state=initialState, action)=>{
            } 
         
     }
+    else if(action.type=="DECREASE_QUANTITY"){
+        return {
+            ...state,
+            cartItems: state.cartItems.map(item => item.id === action.item ?
+                { ...item, quantity: item.quantity-1 } : 
+                item
+            ) ,
+            }
+    }
+    else if(action.type=="INCREASE_QUANTITY"){
+        return {
+            ...state,
+            cartItems: state.cartItems.map(item => item.id === action.item ?
+                { ...item, quantity: item.quantity+1 } : 
+                item
+            ) ,
+            }
+    }
 
 
 
