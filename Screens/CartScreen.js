@@ -25,7 +25,7 @@ class CartScreen extends Component {
   componentDidMount = ()=>{
     let Items = this.props.cartItems.cartItems.map(
       (item)=>{
-        return item.item
+        return item
       }
     )
     this.setState({

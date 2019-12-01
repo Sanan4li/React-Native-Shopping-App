@@ -85,11 +85,13 @@ import {connect} from "react-redux";
       );
     }
     addCartHandler = (book)=>{
-      this.getItemsCount();
-      //console.log(this.state.count);
-      let qty = 1;
-      book.quantity = qty;
-      this.props.addToCart(book);
+      
+   let qty = 1;
+   book.quantity = qty;
+    //console.log(this.state.count);
+    this.props.addToCart(book);
+    this.getItemsCount();
+    // this.props.itemsCount.itemsCount
      
       // this.props.itemsCount.itemsCount
     }
@@ -97,12 +99,21 @@ import {connect} from "react-redux";
 
 
   loadBooks = (book)=>{
-                   
+    let newBook = {
+      id : book.item.id,
+      title : book.item.title,
+      Description : book.item.Description,
+      image : book.item.image,
+      Price : book.item.Price,
+      category : book.item.category,
+      rating : book.item.rating,
+      favourite: book.item.favourite
+    }
     return (
         <TouchableOpacity onPress={
           ()=>{
             this.props.navigation.navigate("ProductDetails", 
-            {book} );
+            {newBook} );
             
         }
         }>
@@ -134,7 +145,7 @@ import {connect} from "react-redux";
                 borderWidth:1,
                 }} 
                 onPress={()=>{
-                  this.addCartHandler(book);
+                  this.addCartHandler(newBook);
                 }}
                 >
              <Text style={{color:"#FF543C", fontWeight:"bold"}}>Add to Cart</Text>

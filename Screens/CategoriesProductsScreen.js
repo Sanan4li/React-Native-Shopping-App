@@ -102,22 +102,31 @@ class CategoriesProductsScreen extends Component {
     );
   }
   addCartHandler = (book)=>{
-   this.getItemsCount();
+   
    let qty = 1;
-   book.item.quantity = qty;
+   book.quantity = qty;
     //console.log(this.state.count);
     this.props.addToCart(book);
-   
+    this.getItemsCount();
     // this.props.itemsCount.itemsCount
   }
 
   loadBooks = (book)=>{
-                   
+                   let newBook = {
+                     id : book.item.id,
+                     title : book.item.title,
+                     Description : book.item.Description,
+                     image : book.item.image,
+                     Price : book.item.Price,
+                     category : book.item.category,
+                     rating : book.item.rating,
+                     favourite: book.item.favourite
+                   }
     return (
         <TouchableOpacity onPress={
             ()=>{
                 this.props.navigation.navigate("ProductDetails", 
-                {book} );
+                {newBook} );
             }
         }>
         <View style={styles.productMain}>
@@ -148,7 +157,7 @@ class CategoriesProductsScreen extends Component {
                 borderWidth:1,
                 }} 
                 onPress={()=>{
-                  this.addCartHandler(book);
+                  this.addCartHandler(newBook);
                 }}
                 >
              <Text style={{color:"#FF543C", fontWeight:"bold"}}>Add to Cart</Text>

@@ -77,8 +77,8 @@ addCartHandler = (book)=>{
 
     render() {
         
-          let book = this.props.navigation.getParam("book");
-         
+          let book = this.props.navigation.getParam("newBook");
+          console.log(book);
           return (
               <ScrollView>
              <View style={styles.main}>
@@ -91,29 +91,29 @@ addCartHandler = (book)=>{
                 />
             
                  <Image
-                  source={{ uri: book.item.image }}
+                  source={{ uri: book.image }}
                       style={styles.fitImage}
                   />
                   <View style={styles.infoBox}>
                       <Text>Book Title</Text>
-                      <Text style={styles.propText}>{book.item.title}</Text>
+                      <Text style={styles.propText}>{book.title}</Text>
                   </View>
                   <View style={styles.infoBox}>
                       <Text>Written By</Text>
-                      <Text style={styles.propText}>{book.item.Description}</Text>
+                      <Text style={styles.propText}>{book.Description}</Text>
                   </View>
                   <View style={styles.infoBox}>
                       <Text>Category</Text>
-                      <Text style={styles.propText}>{book.item.category}</Text>
+                      <Text style={styles.propText}>{book.category}</Text>
                   </View>
                   <View style={styles.infoBox}>
                       <Text>Price</Text>
-                      <Text style={styles.propText}>{book.item.Price}</Text>
+                      <Text style={styles.propText}>{book.Price}</Text>
                   </View>
                  <View style={styles.rating}>
                  <Rating
                  
-                  startingValue={Math.floor(parseInt(book.item.rating))}
+                  startingValue={Math.floor(parseInt(book.rating))}
                       ratingCount={5}
                       imageSize={40}
                       showRating
@@ -139,6 +139,7 @@ addCartHandler = (book)=>{
               
              </View>
              </ScrollView>
+           
         )
     }
 }
