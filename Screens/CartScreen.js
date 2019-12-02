@@ -3,7 +3,8 @@ import {
   StyleSheet,
   View,
   Text,
- TextInput,
+ Button,
+ Alert,
  TouchableOpacity,
  FlatList,
  Image,
@@ -46,6 +47,7 @@ class CartScreen extends Component {
       itemsCount : this.props.itemsCount.itemsCount
     });
   }
+  
 
 
 
@@ -139,6 +141,29 @@ class CartScreen extends Component {
               this.loadBooks
               }
            />
+             <TouchableOpacity style={{ 
+                justifyContent:"center", 
+                alignItems:"center", 
+                padding:10 ,
+                width:"90%", 
+                backgroundColor:"#FF543C",
+                borderRadius:3,
+               
+                marginBottom:20,
+                }}
+                onPress={()=>{
+                  Alert.alert(
+                    "Order Placed!",
+                    "Thanks for Ordering. You will receive your order in 2-4 business days. Cash On Delivery!",
+                    [{text: 'OK', onPress: () => console.log('Order Placed Success!')}]
+                  );
+                  this.props.orderPlaced();
+                  setTimeout(this.getItemsCount,1000);
+
+                }}
+                >
+              <Text style={{color:"white", fontWeight:"bold", fontSize:20}}>Order Now</Text>
+              </TouchableOpacity>
            </View>
         )
     }
@@ -204,6 +229,11 @@ const styles = StyleSheet.create({
         dispatch({
           type : "INCREASE_QUANTITY",
           item : itemData
+        });
+      },
+      orderPlaced : ()=>{
+        dispatch({
+          type : "ORDER_PLACED",
         });
       },
     }

@@ -1,5 +1,6 @@
 const initialState = {
     cartItems : [],
+    wishListItems : [],
     itemsCount : 0
 
 }
@@ -70,6 +71,42 @@ export default (state=initialState, action)=>{
                 item
             ) ,
             }
+    }
+    else if(action.type=="ADD_TO_WISH_LIST"){
+       
+        for(let i = 0; i < state.wishListItems.length; i++){
+            if(state.wishListItems[i].id== action.item.id){
+               
+                return state;
+            }
+        }
+        
+        let updatedWishListItems = [...state.wishListItems, action.item];   
+       return {
+        ...state,
+        wishListItems : updatedWishListItems ,
+       
+       } 
+    }
+    else if(action.type=="DELETE_FROM_CART"){
+        let newWishListItems = state.wishListItems.filter(
+            (item)=>{
+             return item.id!=action.item.id
+            }
+         );
+        
+         return {
+             ...state,
+             wishListItems : newWishListItems ,
+            
+            } 
+    }
+    else if(action.type=="ORDER_PLACED"){
+        return {
+            ...state,
+            itemsCount : 0,
+            cartItems : [],
+        }
     }
 
 

@@ -91,22 +91,23 @@ addCartHandler = (book)=>{
                       style={styles.fitImage}
                   />
                   <View style={styles.infoBox}>
-                      <Text>Book Title</Text>
+                      <Text>Product </Text>
                       <Text style={styles.propText}>{book.title}</Text>
                   </View>
-                  <View style={styles.infoBox}>
-                      <Text>Written By</Text>
-                      <Text style={styles.propText}>{book.Description}</Text>
-                  </View>
+                 
                   <View style={styles.infoBox}>
                       <Text>Category</Text>
                       <Text style={styles.propText}>{book.category}</Text>
                   </View>
                   <View style={styles.infoBox}>
                       <Text>Price</Text>
-                      <Text style={styles.propText}>{book.Price}</Text>
+                      <Text style={styles.propText}>${book.Price}</Text>
                   </View>
                  <View style={styles.rating}>
+                   <View style={{...styles.infoBox, flexDirection:"column"}}>   
+                     <Text> Description! </Text>
+                      <Text>{book.Description}</Text>
+                   </View>
                  <Rating
                  
                   startingValue={Math.floor(parseInt(book.rating))}
@@ -115,11 +116,12 @@ addCartHandler = (book)=>{
                       showRating
                   />
                  </View>
-                 <TouchableOpacity style={{ 
+                <View style={{alignItems:"center"}}>
+                <TouchableOpacity style={{ 
                 justifyContent:"center", 
                 alignItems:"center", 
-                padding:15 ,
-                width:"100%", 
+                padding:10 ,
+                width:"80%", 
                 backgroundColor:"#FF543C",
                 borderRadius:3,
                
@@ -131,6 +133,7 @@ addCartHandler = (book)=>{
                 >
               <Text style={{color:"white", fontWeight:"bold", fontSize:20}}>Add to Cart</Text>
               </TouchableOpacity>
+                </View>
               
              </View>
              </ScrollView>

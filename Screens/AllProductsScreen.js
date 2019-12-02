@@ -84,8 +84,12 @@ import {connect} from "react-redux";
       }
       );
     }
+    addToWishListHandler = (book)=>{
+    this.props.addToWishList(book);
+    this.getItemsCount();
+    }
+
     addCartHandler = (book)=>{
-      
    let qty = 1;
    book.quantity = qty;
     //console.log(this.state.count);
@@ -150,7 +154,9 @@ import {connect} from "react-redux";
                 >
              <Text style={{color:"#FF543C", fontWeight:"bold"}}>Add to Cart</Text>
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=>{
+                  this.addToWishListHandler(newBook);
+                }}>
               <Fontisto name="heart" size={33} color="#FF543C" style={{marginLeft:10}} />
               </TouchableOpacity>
              </View>
@@ -226,6 +232,12 @@ const mapDispatchToProps = (dispatch)=>{
     addToCart : (itemData)=>{
       dispatch({
         type : "ADD_TO_CART",
+        item : itemData
+      });
+    },
+    addToWishList : (itemData)=>{
+      dispatch({
+        type : "ADD_TO_WISH_LIST",
         item : itemData
       });
     }
