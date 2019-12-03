@@ -23,7 +23,7 @@ import {connect} from "react-redux";
         return {
           headerRight : <View style={{flexDirection:"row"}}>
              <View style={{
-                 width: 200,
+                 width: 130,
                  borderColor:"white",
                  borderRadius:3,
                  borderWidth:1,
@@ -127,7 +127,9 @@ import {connect} from "react-redux";
             source={{uri : book.item.image}} />
         </View>
         <View style={{ justifyContent: "space-around", alignContent:"center",  marginLeft:20,}}>
-            <Text style={styles.text}>{book.item.title}</Text>
+           <View style={{overFlow:"hidden"}}>
+           <Text numberOfLines={1} style={styles.text}>{book.item.title}</Text>
+             </View>
             <Text style={{color:"#666666"}}>Category : {book.item.category}</Text>
             <Text style={styles.text}>Price : ${book.item.Price}</Text>
             <Rating
@@ -216,6 +218,9 @@ const styles = StyleSheet.create({
       fontFamily : "halfmoon_bold",
       fontSize: 15,
       fontWeight:"bold",
+      overflow:"hidden",
+      width:"90%",
+
   }
 });
 

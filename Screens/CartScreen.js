@@ -60,7 +60,9 @@ class CartScreen extends Component {
             source={{uri : book.item.image}} />
         </View>
         <View style={{ justifyContent: "space-around", alignContent:"center",  marginLeft:20,}}>
-            <Text style={styles.text}>{book.item.title}</Text>
+        <View style={{overFlow:"hidden"}}>
+           <Text numberOfLines={1} style={styles.text}>{book.item.title}</Text>
+             </View>
             <Text style={styles.text}>Price : ${book.item.Price}</Text>
             <View style={{flexDirection:"row",marginVertical:5}}>
             {book.item.quantity > 1 ? 
@@ -200,6 +202,8 @@ const styles = StyleSheet.create({
       fontFamily : "halfmoon_bold",
       fontSize: 15,
       fontWeight:"bold",
+      overflow:"hidden",
+      width:"90%",
   }
 });
 

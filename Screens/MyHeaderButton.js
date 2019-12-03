@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 class MyHeaderButton extends Component {
     render() {
         return (
-            <HeaderButton {...this.props} IconComponent={Icon} iconSize={25} 
+            <HeaderButton {...this.props} IconComponent={Icon} iconSize={22} 
             color="white" />
         )
     }

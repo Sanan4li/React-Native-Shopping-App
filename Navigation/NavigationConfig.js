@@ -24,7 +24,8 @@ const defaultOptionsForStack =  {
     headerTintColor: '#FFFFFF',
     headerTitleStyle: {
         fontWeight: 'bold',
-        color: '#FFFFFF'
+        color: '#FFFFFF',
+         fontSize:18
     }
 }   
       
@@ -121,7 +122,7 @@ const CartStack = createStackNavigator({
         screen :  CategoriesStack,
         navigationOptions : {
             tabBarIcon: ({ tintColor }) => {
-             return   <FontAwesome name="th" size={25} color={tintColor} />
+             return   <FontAwesome name="th" size={20} color={tintColor} />
             }
                 
             },
@@ -132,7 +133,7 @@ const CartStack = createStackNavigator({
         screen : AllProductsStack,
         navigationOptions : {
             tabBarIcon: ({ tintColor }) => {
-                return   <Icon name="tshirt" size={25} color={tintColor} />
+                return   <Icon name="tshirt" size={20} color={tintColor} />
                }
         }
     },   
@@ -140,7 +141,7 @@ const CartStack = createStackNavigator({
     screen :  WishListStack,
         navigationOptions : {
             tabBarIcon: ({ tintColor }) => { 
-                return   <Fontisto name="heart" size={25} color={tintColor} />
+                return   <Fontisto name="heart" size={20} color={tintColor} />
                }
     }
     },   
@@ -148,7 +149,7 @@ const CartStack = createStackNavigator({
         screen :  CartStack,
             navigationOptions : {
                 tabBarIcon: ({ tintColor }) => {
-                    return   <Icon name="shopping-cart" size={25} color={tintColor} />
+                    return   <Icon name="shopping-cart" size={20} color={tintColor} />
                    }
         }
         },
